@@ -1,6 +1,7 @@
 import sqlite3
 import streamlit as st
 import pandas as pd
+import duckdb
 
 
 @st.cache_data
@@ -18,6 +19,18 @@ def get_products():
     return df
 
 
-st.title("📦 รายการสินค้า")
+st.title("📦 รายการสินค้า1")
+data = get_products()
+st.dataframe(data, use_container_width=True)
+
+
+@st.cache_data
+def get_products():
+    duckdb.sql("ATTACH 'db/store.db' AS products")
+    df = duckdb.query("SELECT * FROM products.products").df()
+    return df
+
+
+st.title("📦 รายการสินค้า2")
 data = get_products()
 st.dataframe(data, use_container_width=True)
