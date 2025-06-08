@@ -5,7 +5,7 @@ import duckdb
 
 
 @st.cache_data
-def get_products():
+def get_products1():
     conn = sqlite3.connect("db/store.db")
     cursor = conn.cursor()
 
@@ -20,17 +20,17 @@ def get_products():
 
 
 st.title("📦 รายการสินค้า1")
-data = get_products()
+data = get_products1()
 st.dataframe(data, use_container_width=True)
 
 
 @st.cache_data
-def get_products():
-    duckdb.sql("ATTACH 'db/store.db' AS products")
-    df = duckdb.query("SELECT * FROM products.products").df()
+def get_products2():
+    duckdb.sql("ATTACH 'db/store.db' AS store")
+    df = duckdb.query("SELECT * FROM store.products").df()
     return df
 
 
 st.title("📦 รายการสินค้า2")
-data = get_products()
+data = get_products2()
 st.dataframe(data, use_container_width=True)
